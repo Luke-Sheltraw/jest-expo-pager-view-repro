@@ -1,20 +1,39 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { useRef } from 'react';
+import { Button, StyleSheet, Text, View } from 'react-native';
+import PagerView from '@expo/ui/community/pager-view';
 
-export default function App() {
+export default function PagerViewExample() {
+  const pagerRef = useRef(null);
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
+    <View style={{ flex: 1 }}>
+      <PagerView
+        ref={pagerRef}
+        style={{ flex: 1 }}
+        initialPage={0}
+        onPageSelected={event => {
+          console.log('selected page', event.nativeEvent.position);
+        }}
+      >
+        <View key="one" style={[styles.page, { backgroundColor: '#fde68a' }]}>
+          <Text>Page one</Text>
+        </View>
+        <View key="two" style={[styles.page, { backgroundColor: '#bfdbfe' }]}>
+          <Text>Page two</Text>
+        </View>
+        <View key="three" style={[styles.page, { backgroundColor: '#bbf7d0' }]}>
+          <Text>Page three</Text>
+        </View>
+      </PagerView>
+
+      <Button
+        title="Go to page 2"
+        onPress={() => pagerRef.current?.setPage(1)}
+      />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+  page: { flex: 1, alignItems: 'center', justifyContent: 'center' },
 });
