@@ -1,10 +1,16 @@
 import App from '../App.js';
-import { render } from '@testing-library/react-native';
+import { fireEvent, render, screen } from '@testing-library/react-native';
 
 describe('App', () => {
-  it('should render without erring', async () => {
+  it('should render slides', async () => {
     await render(<App />);
 
-    expect(1 + 1).toBe(2);
+    expect(screen.getByText('Page one')).toBeVisible();
+
+    screen.debug();
+
+    await fireEvent.press(screen.getByText('Go to page 2'));
+
+    screen.debug();
   });
 });
